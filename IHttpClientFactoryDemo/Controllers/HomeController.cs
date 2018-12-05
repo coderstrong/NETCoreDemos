@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IHttpClientFactoryDemo.Models;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IHttpClientFactoryDemo.Controllers
 {
@@ -29,6 +30,7 @@ namespace IHttpClientFactoryDemo.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
