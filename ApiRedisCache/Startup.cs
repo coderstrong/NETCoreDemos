@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Caching.Redis;
 
@@ -27,7 +26,7 @@ namespace ApiRedisCache
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddResponseCompression();
             services.AddDistributedRedisCache(option =>
             {
                 option.Configuration = "127.0.0.1:6379";
@@ -47,6 +46,7 @@ namespace ApiRedisCache
                 app.UseHsts();
             }
 
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

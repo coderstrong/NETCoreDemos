@@ -21,10 +21,10 @@ namespace ApiRedisCache.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<string> Get()
+        public async Task<ActionResult<string>> Get()
         {
             var cachekey ="test";
-            string data = _distributedCache.GetString(cachekey);
+            string data = await _distributedCache.GetStringAsync(cachekey);
 
             var option = new DistributedCacheEntryOptions();
             option.SetSlidingExpiration(TimeSpan.FromSeconds(10));
@@ -35,9 +35,10 @@ namespace ApiRedisCache.Controllers
             else
             {
                 data = "Redis ok";
-                _distributedCache.SetString(cachekey, data, option);
+                await _distributedCache.SetStringAsync(cachekey, data, option);
                 return "Added to cache : " + data;
             }
+
         }
 
         // GET api/values/5
