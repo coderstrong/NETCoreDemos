@@ -25,13 +25,17 @@ namespace ApiRedisCache.Controllers
         {
             var cachekey ="test";
             string data = _distributedCache.GetString(cachekey);
+
+            var option = new DistributedCacheEntryOptions();
+            option.SetSlidingExpiration(TimeSpan.FromSeconds(10));
+
             if(!string.IsNullOrWhiteSpace(data)){
                 return "Fetched from cache : " + data;
             }
             else
             {
                 data = "Redis ok";
-                _distributedCache.SetString(cachekey, data);
+                _distributedCache.SetString(cachekey, data, option);
                 return "Added to cache : " + data;
             }
         }
