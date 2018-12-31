@@ -9,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Serilog.Settings.Configuration;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.File;
+using Serilog.Sinks.Async;
+using Serilog.Sinks.Email;
+using System.Net;
 
 namespace ApiRedisCache
 {
@@ -22,8 +26,21 @@ namespace ApiRedisCache
             .Build();
         public static void Main(string[] args)
         {
+            // var emailInfo = new EmailConnectionInfo(){
+            //     EmailSubject = "Serilog Mail",
+            //     EnableSsl = false,
+            //     FromEmail = "xxxxx@gmail.com",
+            //     ToEmail ="xxxxx@gmail.com",
+            //     NetworkCredentials = new NetworkCredential {
+            //         UserName = "xxxx@gmail.com",
+            //         Password = "xxxx",
+            //     },
+            //     MailServer ="smtp.googlemail.com"
+            // };
+
             Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
+            // .WriteTo.Email(emailInfo)
             .CreateLogger();
 
             CreateWebHostBuilder(args).Build().Run();
