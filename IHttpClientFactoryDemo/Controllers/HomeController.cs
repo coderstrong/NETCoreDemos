@@ -13,6 +13,7 @@ namespace IHttpClientFactoryDemo.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _clientHttpFactory;
+
         public HomeController(IHttpClientFactory clientHttpFactory){
             _clientHttpFactory = clientHttpFactory;
         }
