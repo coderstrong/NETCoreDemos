@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using IHttpClientFactoryDemo.Models;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace IHttpClientFactoryDemo.Controllers
 {
@@ -14,8 +15,15 @@ namespace IHttpClientFactoryDemo.Controllers
     {
         private readonly IHttpClientFactory _clientHttpFactory;
 
-        public HomeController(IHttpClientFactory clientHttpFactory){
+        public ILogger<HomeController> Logger { get; }
+
+        public HomeController(IHttpClientFactory clientHttpFactory, IHinh2D hinh1, IHinh2D hinh2, ILogger<HomeController> logger)
+        {
             _clientHttpFactory = clientHttpFactory;
+            Logger = logger;
+
+            Logger.LogDebug(hinh1.GetGuid() + "-" + hinh1.ToString(), null);
+            Logger.LogDebug(hinh2.GetGuid() + "-" + hinh2.ToString(), null);
         }
         public IActionResult Index()
         {
@@ -24,9 +32,9 @@ namespace IHttpClientFactoryDemo.Controllers
 
         public async Task<IActionResult> About()
         {
-            HttpClient client  = _clientHttpFactory.CreateClient("callgoogle");
+            HttpClient client = _clientHttpFactory.CreateClient("callgoogle");
             var res = await client.GetStringAsync("search?q=IHttpClientFactory");
-            
+
             ViewData["Message"] = res;
             return View();
         }
