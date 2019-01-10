@@ -8,6 +8,7 @@ using IHttpClientFactoryDemo.Models;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using IHttpClientFactoryDemo.Services;
 
 namespace IHttpClientFactoryDemo.Controllers
 {
@@ -16,17 +17,26 @@ namespace IHttpClientFactoryDemo.Controllers
         private readonly IHttpClientFactory _clientHttpFactory;
 
         public ILogger<HomeController> Logger { get; }
-
-        public HomeController(IHttpClientFactory clientHttpFactory, IHinh2D hinh1, IHinh2D hinh2, ILogger<HomeController> logger)
+        
+        public ILifetimeTransient lifetimeTransient {get;}
+        public ILifetimeScope lifetimeScope {get;}
+        public PrintService printService {get;}
+        public HomeController(IHttpClientFactory clientHttpFactory, PrintService printService, ILifetimeTransient lifetimeTransient, ILifetimeScope lifetimeScope, ILogger<HomeController> logger)
         {
             _clientHttpFactory = clientHttpFactory;
             Logger = logger;
-
-            Logger.LogDebug(hinh1.GetGuid() + "-" + hinh1.ToString(), null);
-            Logger.LogDebug(hinh2.GetGuid() + "-" + hinh2.ToString(), null);
+            this.lifetimeTransient = lifetimeTransient;
+            this.lifetimeScope = lifetimeScope;
+            this.printService = printService;
+            Logger.LogDebug(lifetimeTransient.GetGuid() + "- lifetimeTransient", null);
+            Logger.LogDebug(lifetimeScope.GetGuid() + "- lifetimeScope", null);
         }
         public IActionResult Index()
         {
+            ViewBag.lifetimeTransient = lifetimeTransient;
+            ViewBag.lifetimeScope = lifetimeScope;
+            ViewBag.printService = printService;
+
             return View();
         }
 

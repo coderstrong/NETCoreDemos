@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BasicTokenAuthentication;
+using IHttpClientFactoryDemo.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,9 +28,9 @@ namespace IHttpClientFactoryDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IHinh2D, Hinh2D>();
-            services.AddScoped<IHinh2D, HinhVuong2D>();
-            services.AddTransient<IHinh3D, Hinh3D>();
+            services.AddTransient<ILifetimeTransient, LifetimeTransient>();
+            services.AddScoped<ILifetimeScope, LifetimeScope>();
+            services.AddScoped<PrintService, PrintService>();
             // OperationService depends on each of the other Operation types.
 
             services.Configure<CookiePolicyOptions>(options =>

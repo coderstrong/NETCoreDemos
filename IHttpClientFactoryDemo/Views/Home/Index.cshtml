@@ -1,3 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+<div class="container">
+    <h2>Controller:</h2>
+    <p>lifetimeTransient @ViewBag.lifetimeTransient.GetGuid()</p>
+    <p>lifetimeScope @ViewBag.lifetimeScope.GetGuid()</p>
+
+    <h2>Services:</h2>
+    <p>lifetimeTransient @ViewBag.printService.lifetimeTransient.GetGuid()</p>
+    <p>lifetimeScope @ViewBag.printService.lifetimeScope.GetGuid()</p>
+</div>
